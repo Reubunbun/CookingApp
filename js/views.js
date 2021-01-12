@@ -59,8 +59,18 @@ App.Views.AddLocation = Backbone.View.extend({
 
   addLocation(e) {
     e.preventDefault();
-    this.collection.add({
-      "name" : $("#searchBox").val()
-    });
+    let newLocation = new App.Models.Location(
+      { name: $("#searchBox").val() }, {validate: true}
+    );
+    let bExistsInCollection = this.collection.findWhere({name: newLocation.get("name")});
+
+    if (!newLocation.validationError) {
+      if (!bExistsInCollection)
+        this.collection.add(newLocation);
+      else
+        console.log("Location already in list");
+    } else {
+      console.log(newLocation.validationError);
+    }
   }
 });
