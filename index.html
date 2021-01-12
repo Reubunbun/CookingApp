@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Weather App</title>
+  </head>
+
+  <body>
+    <div style="float:left">
+      <h1>Search Location</h1>
+      <form>
+        <input type="text" id="searchBox"/>
+        <input type="submit" id="searchButton" value="Search"/>
+      </form>
+
+    </div>
+    <div style="float:left">
+      <h1>Saved Locations</h1>
+      <div id="locationList"></div>
+    </div>
+
+    <script src="js/libs/jquery-min.js"></script>
+    <script src="js/libs/underscore-min.js"></script>
+    <script src="js/libs/backbone-min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/models.js"></script>
+    <script src="js/collections.js"></script>
+    <script src="js/views.js"></script>
+    <script>
+      App.locations = new App.Collections.Locations([
+        {name: "Bath"},
+        {name: "Liverpool"},
+        {name: "Manchester"}
+      ]);
+      new App.Views.App({collection: App.locations});
+    </script>
+
+  </body>
+</html>
