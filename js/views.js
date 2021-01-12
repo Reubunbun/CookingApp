@@ -12,9 +12,20 @@ App.Views.App = Backbone.View.extend({
 App.Views.Location = Backbone.View.extend({
   tagName: "li",
 
+  template: template("locationTemplate"),
+
+  events: {
+    "click #removeButton": "destroy"
+  },
+
   render() {
-    this.$el.html( this.model.get("name") );
+    this.$el.html( this.template( this.model.toJSON() ) );
     return this;
+  },
+
+  destroy() {
+    this.model.destroy();
+    this.$el.remove();
   }
 });
 
@@ -34,7 +45,8 @@ App.Views.Locations = Backbone.View.extend({
     let locationView = new App.Views.Location({model: location});
     this.$el.append(locationView.render().el);
     return this;
-  }
+  },
+
 });
 
 //Add location button
