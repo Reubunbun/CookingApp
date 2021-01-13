@@ -31,6 +31,7 @@
     <script src="js/collections.js"></script>
     <script src="js/views.js"></script>
     <script>
+      Backbone.history.start();
       App.locations = new App.Collections.Locations([
         {name: "Bath"},
         {name: "Liverpool"},
