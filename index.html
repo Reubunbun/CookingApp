@@ -9,8 +9,11 @@
     <div style="float:left; margin-right:20px;">
       <h1>Search For Meals</h1>
       <form>
-        <input type="text" id="searchBox"/>
-        <input type="submit" id="searchButton" value="Search"/>
+        <div style="float:left">
+          <input type="text" id="searchBox"/>
+          <ul id="searchResults"></ul>
+        </div>
+        <input type="submit" id="searchButton" value="Search" style="float:left"/>
       </form>
 
     </div>
@@ -20,7 +23,9 @@
     </div>
 
     <script id="mealTemplate" type="text/template">
-      <strong><%= name %></strong><input type="submit" id="removeButton" value="remove" />
+      <strong><%= strMeal %></strong>
+      <input type="submit" id="removeButton" value="remove" />
+      <input type="submit" id="viewButton" value="view" />
     </script>
 
     <script src="js/libs/jquery-min.js"></script>
@@ -32,11 +37,12 @@
     <script src="js/views.js"></script>
     <script>
       Backbone.history.start();
-      App.meals = new App.Collections.Meals([
-        {name: "Pasta"},
-        {name: "Tacos"},
-        {name: "Cake"}
+      App.savedMeals = new App.Collections.SavedMeals([
+        {strMeal: "Pasta"},
+        {strMeal: "Tacos"},
+        {strMeal: "Cake"}
       ]);
+      App.searchedMeals = new App.Collections.SearchedMeals();
       new App.Views.App({collection: App.meals});
     </script>
 
