@@ -1,4 +1,4 @@
-App.Models.Location = Backbone.Model.extend({
+App.Models.Meal = Backbone.Model.extend({
   validate: function(attrs) {
     if (!attrs.name) {
       return "Must have an input";
