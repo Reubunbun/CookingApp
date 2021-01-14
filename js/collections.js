@@ -10,6 +10,8 @@ App.Collections.SearchedMeals = Backbone.Collection.extend({
   url: "",
 
   parse(response) {
-    if ("meals" in response) return response.meals;
+    if ("meals" in response && response.meals !== undefined) {
+      return response.meals;
+    }
   }
 });
