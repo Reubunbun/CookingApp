@@ -2,13 +2,10 @@
 App.Views.App = Backbone.View.extend({
   initialize() {
     const savedMealsView = new App.Views.SavedMeals( {collection: App.savedMeals} );
-    savedMealsView.render()
-    $("#mealList").append(savedMealsView.$el);
-    /**let searchBoxView = new App.Views.SearchBox({collection: App.searchedMeals});
-    let searchedMealsView = new App.Views.SearchedMeals({collection: App.searchedMeals});
-    let savedMealsView = new App.Views.SavedMeals({collection: App.savedMeals});
-    savedMealsView.render();
-    $("#mealList").append(savedMealsView.el);*/
+    $("#mealList").append(savedMealsView.render().$el);
+    const searchBoxView = new App.Views.SearchBox( {collection: App.searchedMeals} );
+    const searchedMealsView = new App.Views.SearchedMeals( {collection: App.searchedMeals} );
+    searchedMealsView.render();
   }
 });
 
@@ -28,51 +25,25 @@ App.Views.SavedMeals = Marionette.CollectionView.extend({
 });
 
 //Searchbox view
-App.Views.SearchBox = Backbone.View.extend({
+App.Views.SearchBox = Marionette.View.extend({
   el: "#searchBox",
-  events: {
-    "keyup": "search"
-  },
+  events: { "keyup": "search" },
 
-  search(){
+  search() {
     this.collection.url = this.collection.requestUrl + this.$el.val();
     this.collection.reset();
-    if (this.$el.val() !== "") {
-      this.collection.fetch().then( () => console.log(this.collection.length) );
-    }
+    if (this.$el.val() !== "") this.collection.fetch();
   }
 });
 
 //Single search result
-App.Views.SearchedMeal = Backbone.View.extend({
+App.Views.SearchedMeal = Marionette.View.extend({
   tagName: "li",
-
-  initialize() {
-    this.model.on("destroy", this.remove, this);
-  },
-  render() {
-    this.$el.html( this.model.get("strMeal") );
-    return this;
-  },
-  remove() {
-    this.$el.remove();
-  }
+  template: _.template("<%= strMeal %>")
 });
 
 //Collection of search results
-App.Views.SearchedMeals = Backbone.View.extend({
+App.Views.SearchedMeals = Marionette.CollectionView.extend({
   el: "#searchResults",
-
-  initialize() {
-    this.collection.on("reset", this.reset, this);
-    this.collection.on("add", this.addOne, this);
-  },
-  addOne(meal) {
-    let mealView = new App.Views.SearchedMeal( {model: meal} );
-    this.$el.append(mealView.render().el);
-    return this;
-  },
-  reset() {
-    this.$el.empty();
-  }
+  childView: App.Views.SearchedMeal
 });
