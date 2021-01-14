@@ -1,51 +1,30 @@
 //Main view
 App.Views.App = Backbone.View.extend({
-  initialize: function(){
-    let searchBoxView = new App.Views.SearchBox({collection: App.searchedMeals});
+  initialize() {
+    const savedMealsView = new App.Views.SavedMeals( {collection: App.savedMeals} );
+    savedMealsView.render()
+    $("#mealList").append(savedMealsView.$el);
+    /**let searchBoxView = new App.Views.SearchBox({collection: App.searchedMeals});
     let searchedMealsView = new App.Views.SearchedMeals({collection: App.searchedMeals});
     let savedMealsView = new App.Views.SavedMeals({collection: App.savedMeals});
     savedMealsView.render();
-    $("#mealList").append(savedMealsView.el);
+    $("#mealList").append(savedMealsView.el);*/
   }
 });
 
-//Single Saved Meal
-App.Views.SavedMeal = Backbone.View.extend({
+//One meal
+App.Views.SavedMeal = Marionette.View.extend({
   tagName: "li",
-
   template: template("mealTemplate"),
+  events: { "click #removeButton": "destroy" },
 
-  events: {
-    "click #removeButton": "destroy"
-  },
-
-  render() {
-    this.$el.html( this.template( this.model.toJSON() ) );
-    return this;
-  },
-
-  destroy() {
-    this.model.destroy();
-    this.$el.remove();
-  }
+  destroy() { this.model.destroy(); }
 });
 
-//Collection Of Saved Meals
-App.Views.SavedMeals = Backbone.View.extend({
+//Collection of meals
+App.Views.SavedMeals = Marionette.CollectionView.extend({
   tagName: "ul",
-
-  initialize() {
-    this.collection.on("add", this.addOne, this);
-  },
-  render() {
-    this.collection.each(this.addOne, this);
-  },
-  addOne(meal) {
-    let mealView = new App.Views.SavedMeal( {model: meal} );
-    this.$el.append(mealView.render().el);
-    return this;
-  },
-
+  childView: App.Views.SavedMeal
 });
 
 //Searchbox view
