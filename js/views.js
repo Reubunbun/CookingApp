@@ -41,7 +41,7 @@ App.Views.SavedMeals = Backbone.View.extend({
     this.collection.each(this.addOne, this);
   },
   addOne(meal) {
-    let mealView = new App.Views.SavedMeal({model: meal});
+    let mealView = new App.Views.SavedMeal( {model: meal} );
     this.$el.append(mealView.render().el);
     return this;
   },
@@ -57,11 +57,10 @@ App.Views.SearchBox = Backbone.View.extend({
 
   search(){
     this.collection.url = this.collection.requestUrl + this.$el.val();
-    this.collection.each(
-      function(model){model.destroy();
-    });
     this.collection.reset();
-    this.collection.fetch();
+    if (this.$el.val() !== "") {
+      this.collection.fetch().then( () => console.log(this.collection.length) );
+    }
   }
 });
 
@@ -76,7 +75,7 @@ App.Views.SearchedMeal = Backbone.View.extend({
     this.$el.html( this.model.get("strMeal") );
     return this;
   },
-  remove(){
+  remove() {
     this.$el.remove();
   }
 });
@@ -86,11 +85,15 @@ App.Views.SearchedMeals = Backbone.View.extend({
   el: "#searchResults",
 
   initialize() {
+    this.collection.on("reset", this.reset, this);
     this.collection.on("add", this.addOne, this);
   },
   addOne(meal) {
-    let mealView = new App.Views.SearchedMeal({model: meal});
+    let mealView = new App.Views.SearchedMeal( {model: meal} );
     this.$el.append(mealView.render().el);
     return this;
+  },
+  reset() {
+    this.$el.empty();
   }
 });
