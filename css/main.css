@@ -1,0 +1,41 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+nav {
+  background: grey;
+  padding: 1em 0 1em 0.5em;
+}
+nav a {
+  margin-right: 0.5em;
+}
+
+.navItem {
+  display: inline-block;
+}
+
+#searchResults {
+  position: absolute;
+  max-height: 10em;
+  overflow: scroll;
+}
+#searchResults li {
+  padding: 2px;
+  background: #d9d9d9;
+}
+#searchResults li:nth-child(2n) {
+  background: #bfbfbf;
+}
+
+#main-content {
+  width: 50%;
+  margin: 1em auto;
+  text-align: center;
+}
+
+#main-content .picture-ingredients {
+  display: inline-block;
+  width: 49%;
+  vertical-align: top;
+}
