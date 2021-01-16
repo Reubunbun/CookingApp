@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <title>Cooking App</title>
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
   </head>
 
   <body>
@@ -24,12 +25,14 @@
     <!-- Viewing full details of recipe -->
     <script id="showRecipeTemplate" type="text/template">
       <h1> <%= strMeal %> </h1>
-      <div>
-        <p> <%= strInstructions %> </p>
-        <img src="<%= strMealThumb %>" />
+      <p> <%= strInstructions %> </p>
+      <div class="picture-ingredients">
+        <img src="<%= strMealThumb %>" width="480"/>
       </div>
-      <h2>Ingredients</h2>
-      <ul id="ingredientsList"></ul>
+      <div class="picture-ingredients">
+        <h2>Ingredients</h2>
+        <ul id="ingredientsList"></ul>
+      </div>
     </script>
 
     <!-- Saved recipe list item -->
