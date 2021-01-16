@@ -51,6 +51,18 @@
       <h1> Results </h1>
       <ul id="resultsList"></ul>
     </script>
+    <!-- Searched recipe list item -->
+    <script id="searchedRecipeTemplate" type="text/template">
+      <div style="display:inline-block; vertical-align:top">
+        <strong> <%= strMeal %> </strong>
+        <div>
+          <input type="submit" id="viewButton" value="view" />
+          <input type="submit" id="addButton" value="save" />
+        </div>
+      </div>
+      <img src="<%= strMealThumb %>" width="100" style="display:inline-block"/>
+    </script>
+    <!-- Recipe ingredient -->
     <script id="ingredientTemplate" type="text/template">
       <strong> <%= strIngredient %> </strong> - <%= strMeasure %>
     </script>
@@ -67,6 +79,7 @@
     <script src="js/views.js"></script>
     <script src="js/router.js"></script>
     <script>
+      App.startURL = window.location.href; //Temporary for when its being run locally
       App.savedRecipes    = new App.Collections.SavedRecipes();
       App.searchedRecipes = new App.Collections.SearchedRecipes();
 
