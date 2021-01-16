@@ -13,7 +13,7 @@ App.Views.SavedRecipe = Marionette.View.extend({
 
   viewRecipe() {
     App.searchedRecipes.reset();
-    window.location.href += "#show/" + this.model.get("idMeal");
+    window.location.href = App.startURL + "#show/" + this.model.get("idMeal");
   },
   destroy() { this.model.destroy(); }
 });
@@ -24,24 +24,16 @@ App.Views.SavedRecipes = Marionette.CollectionView.extend({
   childView: App.Views.SavedRecipe
 });
 
-//Single search result
-App.Views.SearchedRecipe = Marionette.View.extend({
+//Single search preview
+App.Views.SearchPreview = Marionette.View.extend({
   tagName: "li",
-  template: _.template("<%= strMeal %>"),
-  events: {"click": "saveRecipe"},
-
-  saveRecipe() {
-    const isDuplicate = App.savedRecipes.find(
-      recipe => recipe.get("idMeal") == this.model.get("idMeal")
-    );
-    if (!isDuplicate) App.savedRecipes.add( this.model.toJSON() );
-  }
+  template: _.template("<%= strMeal %>")
 });
 
-//Collection of search results
-App.Views.SearchedRecipes = Marionette.CollectionView.extend({
+//Collection of search previews
+App.Views.SearchPreviews = Marionette.CollectionView.extend({
   el: "#searchResults",
-  childView: App.Views.SearchedRecipe
+  childView: App.Views.SearchPreview
 });
 
 //Searchbar
@@ -53,7 +45,7 @@ App.Views.SearchBar = Marionette.View.extend({
 
   onRender(){
     this.showChildView( "searchResults",
-      new App.Views.SearchedRecipes( {collection: this.collection} )
+      new App.Views.SearchPreviews( {collection: this.collection} )
     );
   },
   search() {
@@ -62,6 +54,26 @@ App.Views.SearchBar = Marionette.View.extend({
     this.collection.reset();
     if (searchValue !== "") this.collection.fetch();
   }
+});
+
+//One search result
+App.Views.SearchResult = Marionette.View.extend({
+  tagName: "li",
+  template: template("searchedRecipeTemplate"),
+  events: {"click": "saveRecipe"},
+
+  saveRecipe() {
+    const isDuplicate = App.savedRecipes.find(
+      recipe => recipe.get("idMeal") == this.model.get("idMeal")
+    );
+    if (!isDuplicate) App.savedRecipes.add( this.model.toJSON() );
+  }
+});
+
+//Collection of search results
+App.Views.SearchResults = Marionette.CollectionView.extend({
+  el: "#resultsList",
+  childView: App.Views.SearchResult
 });
 
 //One ingredient
@@ -86,16 +98,17 @@ App.Views.Main = Marionette.View.extend({
   template: template("mainViewTemplate"),
   regions: {
     searchBar: "#searchBar",
-    main: {
-      el: "#main-content",
-      replaceElement: false
-    }
+    main: "#main-content"
   },
+  events: { "click #searchButton": "search" },
 
   onRender() {
     this.showChildView( "searchBar",
       new App.Views.SearchBar( {collection: App.searchedRecipes} )
     );
+  },
+  search() {
+    window.location.href = App.startURL + "#search";
   }
 });
 
@@ -141,12 +154,16 @@ App.Views.ShowRecipePage = Marionette.View.extend({
 
 //Shows all searched recipes with image preview
 App.Views.SearchedRecipesPage = Marionette.View.extend({
+  el: "#main-content",
   template: template("searchedRecipesTemplate"),
-  regions: {resultsList: "#resultsList"},
+  regions: { resultsList: "#resultsList" },
 
-  onBeforeShow() {
-    this.getRegion("resultsList").show(
-      //TODO
+  onRender() {
+    //Need to make a separate collection so there can be search previews on the
+    //search page
+    const results = App.searchedRecipes.clone();
+    this.showChildView( "resultsList",
+      new App.Views.SearchResults( {collection: results} )
     );
   }
 });
