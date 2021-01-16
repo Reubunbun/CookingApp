@@ -44,7 +44,7 @@ App.Views.SearchedRecipes = Marionette.CollectionView.extend({
   childView: App.Views.SearchedRecipe
 });
 
-//Searchbox view
+//Searchbar
 App.Views.SearchBar = Marionette.View.extend({
   el: "#searchBar",
   template: template("searchBarTemplate"),
@@ -62,6 +62,18 @@ App.Views.SearchBar = Marionette.View.extend({
     this.collection.reset();
     if (searchValue !== "") this.collection.fetch();
   }
+});
+
+//One ingredient
+App.Views.Ingredient = Marionette.View.extend({
+  tagName: "li",
+  template: template("ingredientTemplate")
+});
+
+//Collection of ingredients
+App.Views.Ingredients = Marionette.CollectionView.extend({
+  el: "#ingredientsList",
+  childView: App.Views.Ingredient
 });
 
 ////////////////////////////////
@@ -107,7 +119,23 @@ App.Views.ShowRecipePage = Marionette.View.extend({
   regions: { ingredientsList: "#ingredientsList" },
 
   onRender() {
-    //TODO render list of ingredients in region
+    //Create new collection of ingredients with their corresponding measurements
+    let pIngredients = [];
+    for ( const [key, value] of Object.entries( this.model.toJSON() ) ) {
+      if (key.includes("strIngredient") && value) {
+        [, ingredientNum] = key.split("strIngredient");
+        pIngredients.push({
+          strIngredient: value,
+          strMeasure: this.model.get("strMeasure" + ingredientNum)
+        });
+      }
+    }
+
+    this.showChildView( "ingredientsList",
+      new App.Views.Ingredients(
+        { collection: new Backbone.Collection(pIngredients) }
+      )
+    );
   }
 });
 
