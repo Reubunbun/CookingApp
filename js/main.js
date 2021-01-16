@@ -2,7 +2,8 @@
   window.App = {
     Models     : {},
     Views      : {},
-    Collections: {}
+    Collections: {},
+    Router     : {}
   };
 
   window.event = _.extend({}, Backbone.Events);
