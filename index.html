@@ -6,28 +6,50 @@
   </head>
 
   <body>
-    <div style="float:left; margin-right:20px;">
-      <h1>Search For Meals</h1>
-      <form>
-        <div style="float:left">
-          <input type="text" id="searchBox"/>
-          <ul id="searchResults"></ul>
-        </div>
-        <input type="submit" id="searchButton" value="Search" style="float:left"/>
-      </form>
 
-    </div>
-    <div style="float:left">
-      <h1>Saved Meals</h1>
-      <div id="mealList"></div>
-    </div>
+    <!-- Main parent view -->
+    <script id="mainViewTemplate" type="text/template">
+      <nav>
+        <a href="#" class="navItem">Saved Recipes</a>
+        <div id="searchBar" class="navItem"></div>
+        <input type="submit" id="searchButton" value="Search" class="navItem" />
+      </nav>
+      <div id="main-content"></div>
+    </script>
+    <!-- Navigation search bar -->
+    <script id="searchBarTemplate" type="text/template">
+      <input type="text" id="searchBox" />
+      <ul id=searchResults></ul>
+    </script>
+    <!-- Viewing full details of recipe -->
+    <script id="showRecipeTemplate" type="text/template">
+      <h1> <%= strMeal %> </h1>
+      <div>
+        <p> <%= strInstructions %> </p>
+        <img src="<%= strMealThumb %>" />
+      </div>
+      <h2>Ingredients</h2>
+      <ul id="ingredientsList"></ul>
+    </script>
 
-
-    <!-- Templates -->
-    <script id="mealTemplate" type="text/template">
+    <!-- Saved recipe list item -->
+    <script id="savedRecipeTemplate" type="text/template">
       <strong><%= strMeal %></strong>
       <input type="submit" id="removeButton" value="remove" />
       <input type="submit" id="viewButton" value="view" />
+    </script>
+    <!-- Saved recipes full list -->
+    <script id="savedRecipesTemplate" type="text/template">
+      <h1> Saved Recipes </h1>
+      <ul id="recipeList"></ul>
+    </script>
+    <!-- Searched recipes full list -->
+    <script id="searchedRecipesTemplate" type="text/template">
+      <h1> Results </h1>
+      <ul id="resultsList"></ul>
+    </script>
+    <script id="ingredientTemplate" type="text/template">
+      <strong> <%= strIngredient %> </strong> - <%= strMeasure %>
     </script>
 
     <!-- Javascript -->
@@ -40,15 +62,15 @@
     <script src="js/models.js"></script>
     <script src="js/collections.js"></script>
     <script src="js/views.js"></script>
+    <script src="js/router.js"></script>
     <script>
+      App.savedRecipes    = new App.Collections.SavedRecipes();
+      App.searchedRecipes = new App.Collections.SearchedRecipes();
+
+      const mainView = new App.Views.Main();
+      mainView.render();
+      new App.Router();
       Backbone.history.start();
-      App.savedMeals = new App.Collections.SavedMeals([
-        {strMeal: "Pasta"},
-        {strMeal: "Tacos"},
-        {strMeal: "Cake"}
-      ]);
-      App.searchedMeals = new App.Collections.SearchedMeals();
-      new App.Views.App({collection: App.meals});
     </script>
 
   </body>
