@@ -1,7 +1,7 @@
 App.Router = Backbone.Router.extend({
   routes: {
     "": "SavedRecipesPage",
-    "search": "SearchedRecipesPage",
+    "search": "SearchRecipesPage",
     "show/:id": "ShowRecipePage"
   },
 
@@ -11,8 +11,11 @@ App.Router = Backbone.Router.extend({
       new App.Views.SavedRecipesPage()
     );
   },
-  SearchedRecipesPage(query) {
-    //TODO
+  SearchRecipesPage() {
+    mainView.getRegion("main").detachView();
+    mainView.showChildView( "main",
+      new App.Views.SearchedRecipesPage()
+    );
   },
   ShowRecipePage(id) {
     const recipeModel = App.savedRecipes.find(
