@@ -24,7 +24,10 @@
     </script>
     <!-- Viewing full details of recipe -->
     <script id="showRecipeTemplate" type="text/template">
-      <h1> <%= strMeal %> </h1>
+      <div>
+        <h1 style="display:inline-block"> <%= strMeal %> </h1>
+        <input type="submit" id="saveButton" value="save" style="display:inline-block" />
+      </div>
       <p> <%= strInstructions %> </p>
       <div class="picture-ingredients">
         <img src="<%= strMealThumb %>" width="480"/>
@@ -80,8 +83,9 @@
     <script src="js/router.js"></script>
     <script>
       App.startURL = window.location.href; //Temporary for when its being run locally
-      App.savedRecipes    = new App.Collections.SavedRecipes();
-      App.searchedRecipes = new App.Collections.SearchedRecipes();
+      App.savedRecipes         = new App.Collections.SavedRecipes();
+      App.searchPreviewRecipes = new App.Collections.SearchedRecipes();
+      App.searchedRecipes      = new App.Collections.SearchedRecipes();
 
       const mainView = new App.Views.Main();
       mainView.render();
