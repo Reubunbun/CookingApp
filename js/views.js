@@ -12,7 +12,7 @@ App.Views.SavedRecipe = Marionette.View.extend({
   },
 
   viewRecipe() {
-    window.location.href = App.startURL + "#show/" + this.model.get("idMeal");
+    window.location.href = App.startURL + "#showSaved/" + this.model.get("idMeal");
   },
   destroy() { this.model.destroy(); }
 });
@@ -59,13 +59,19 @@ App.Views.SearchBar = Marionette.View.extend({
 App.Views.SearchResult = Marionette.View.extend({
   tagName: "li",
   template: template("searchedRecipeTemplate"),
-  events: {"click": "saveRecipe"},
+  events: {
+    "click #addButton": "saveRecipe",
+    "click #viewButton": "viewRecipe",
+  },
 
   saveRecipe() {
     const isDuplicate = App.savedRecipes.find(
       recipe => recipe.get("idMeal") == this.model.get("idMeal")
     );
     if (!isDuplicate) App.savedRecipes.add( this.model.toJSON() );
+  },
+  viewRecipe() {
+    window.location.href = App.startURL + "#showSearched/" + this.model.get("idMeal");
   }
 });
 
@@ -103,7 +109,7 @@ App.Views.Main = Marionette.View.extend({
 
   onRender() {
     this.showChildView( "searchBar",
-      new App.Views.SearchBar( {collection: App.searchedRecipes} )
+      new App.Views.SearchBar( {collection: App.searchPreviewRecipes} )
     );
   },
   search() {
@@ -129,8 +135,14 @@ App.Views.ShowRecipePage = Marionette.View.extend({
   el: "#main-content",
   template: template("showRecipeTemplate"),
   regions: { ingredientsList: "#ingredientsList" },
+  events: { "click #saveButton": "saveRecipe" },
 
   onRender() {
+    //Remove save button when recipe is already saved
+    if ( window.location.href.includes("showSaved") ) {
+      this.$el.find("#saveButton").remove();
+    }
+
     //Create new collection of ingredients with their corresponding measurements
     let pIngredients = [];
     for ( const [key, value] of Object.entries( this.model.toJSON() ) ) {
@@ -148,6 +160,12 @@ App.Views.ShowRecipePage = Marionette.View.extend({
         { collection: new Backbone.Collection(pIngredients) }
       )
     );
+  },
+  saveRecipe() {
+    const isDuplicate = App.savedRecipes.find(
+      recipe => recipe.get("idMeal") == this.model.get("idMeal")
+    );
+    if (!isDuplicate) App.savedRecipes.add( this.model.toJSON() );
   }
 });
 
@@ -160,9 +178,9 @@ App.Views.SearchedRecipesPage = Marionette.View.extend({
   onRender() {
     //Need to make a separate collection so there can be search previews on the
     //search page
-    const results = App.searchedRecipes.clone();
+    App.searchedRecipes = App.searchPreviewRecipes.clone();
     this.showChildView( "resultsList",
-      new App.Views.SearchResults( {collection: results} )
+      new App.Views.SearchResults( {collection: App.searchedRecipes} )
     );
   }
 });
