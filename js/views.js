@@ -12,7 +12,6 @@ App.Views.SavedRecipe = Marionette.View.extend({
   },
 
   viewRecipe() {
-    App.searchedRecipes.reset();
     window.location.href = App.startURL + "#show/" + this.model.get("idMeal");
   },
   destroy() { this.model.destroy(); }
