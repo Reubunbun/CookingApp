@@ -12,14 +12,13 @@ App.Collections.SearchedRecipes = Backbone.Collection.extend({
 
   parse(response) {
     if ("meals" in response && response.meals !== undefined) {
-       //Change format of urls so they can be embedded 
+       //Change format of urls so they can be embedded
       for (let meal of response.meals) {
         if ("strYoutube" in meal) {
           [, videoID] = meal.strYoutube.split("v=");
           meal.strYoutube = "http://www.youtube.com/embed/" + videoID;
         }
       }
-      console.log(response.meals);
       return response.meals;
     }
   }
