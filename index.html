@@ -3,24 +3,35 @@
   <head>
     <meta charset="utf-8" />
     <title>Cooking App</title>
-    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="js/libs/underscore-min.js"></script>
+    <script src="js/libs/backbone-min.js"></script>
+    <script src="js/libs/backbone.radio.js"></script>
+    <script src="js/libs/backbone.marionette.min.js"></script>
   </head>
 
   <body>
 
     <!-- Main parent view -->
     <script id="mainViewTemplate" type="text/template">
-      <nav>
-        <a href="#" class="navItem">Saved Recipes</a>
-        <div id="searchBar" class="navItem"></div>
-        <input type="submit" id="searchButton" value="Search" class="navItem" />
+      <nav class="navbar navbar-expand-sm bg-dark navbar-dark py-3">
+        <a class="btn btn-primary mr-4" href="#">Saved Recipes</a>
+        <form class="form-inline">
+          <div id="searchBar"></div>
+          <input class="btn btn-success" type="submit" id="searchButton" value="Search"/>
+        </form>
       </nav>
-      <div id="main-content"></div>
+      <div id="main-content" class="container-sm"></div>
     </script>
     <!-- Navigation search bar -->
     <script id="searchBarTemplate" type="text/template">
-      <input type="text" autocomplete="off" id="searchBox" />
-      <ul id=searchResults></ul>
+      <input class="form-control mr-sm-2" type="text" autocomplete="off" id="searchBox" />
+      <div class="dropdown" style="position:absolute" id=searchResults></div>
     </script>
     <!-- Viewing full details of recipe -->
     <script id="showRecipeTemplate" type="text/template">
@@ -29,14 +40,14 @@
         <input type="submit" id="saveButton" value="save" style="display:inline-block" />
       </div>
       <p> <%= strInstructions %> </p>
-      <div class="picture-ingredients">
+      <div>
         <img src="<%= strMealThumb %>" width="480"/>
       </div>
-      <div class="picture-ingredients">
+      <div>
         <h2>Ingredients</h2>
         <ul id="ingredientsList"></ul>
       </div>
-      <div class="youtube-container">
+      <div>
         <iframe src="<%=strYoutube%>"></iframe>
       </div>
     </script>
@@ -49,51 +60,54 @@
     </script>
     <!-- Saved recipes full list -->
     <script id="savedRecipesTemplate" type="text/template">
-      <h1> Saved Recipes </h1>
+      <h1 class="text-center display-2"> Saved Recipes </h1>
       <ul id="recipeList"></ul>
     </script>
     <!-- Searched recipes full list -->
     <script id="searchedRecipesTemplate" type="text/template">
-      <h1> Results </h1>
-      <ul id="resultsList" style="list-style-type:none"></ul>
+      <h1 class="text-center display-2"> Results </h1>
+      <ul id="resultsList"></ul>
     </script>
     <!-- Searched recipe list item -->
     <script id="searchedRecipeTemplate" type="text/template">
-      <div style="display:inline-block; vertical-align:top">
+      <div id="alert"></div>
+      <div>
         <strong> <%= strMeal %> </strong>
         <div>
           <input type="submit" id="viewButton" value="view" />
           <input type="submit" id="addButton" value="save" />
         </div>
       </div>
-      <img src="<%= strMealThumb %>" width="100" style="display:inline-block"/>
+      <img src="<%= strMealThumb %>" width="100"/>
     </script>
     <!-- Recipe ingredient -->
     <script id="ingredientTemplate" type="text/template">
       <strong> <%= strIngredient %> </strong> - <%= strMeasure %>
     </script>
+    <!-- Bootstrap alert template -->
+    <template id="alertTemplate">
+      <div class="alert alert-success alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Successfully Saved Recipe</strong>
+      </div>
+    </template>
 
-    <!-- Javascript -->
-    <script src="js/libs/jquery-min.js"></script>
-    <script src="js/libs/underscore-min.js"></script>
-    <script src="js/libs/backbone-min.js"></script>
-    <script src="js/libs/backbone.radio.js"></script>
-    <script src="js/libs/backbone.marionette.min.js"></script>
     <script src="js/main.js"></script>
     <script src="js/models.js"></script>
     <script src="js/collections.js"></script>
     <script src="js/views.js"></script>
     <script src="js/router.js"></script>
     <script>
-      App.startURL = window.location.href; //Temporary for when its being run locally
-      App.savedRecipes         = new App.Collections.SavedRecipes();
-      App.searchPreviewRecipes = new App.Collections.SearchedRecipes();
-      App.searchedRecipes      = new App.Collections.SearchedRecipes();
+      $(document).ready(function(){
+        App.startURL = window.location.href; //Temporary for when its being run locally
+        App.savedRecipes         = new App.Collections.SavedRecipes();
+        App.searchPreviewRecipes = new App.Collections.SearchedRecipes();
+        App.searchedRecipes      = new App.Collections.SearchedRecipes();
 
-      const mainView = new App.Views.Main();
-      mainView.render();
-      new App.Router();
-      Backbone.history.start();
+        App.Views.mainView.render();
+        new App.Router();
+        Backbone.history.start();
+      });
     </script>
 
   </body>
