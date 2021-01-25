@@ -7,8 +7,8 @@ App.Router = Backbone.Router.extend({
   },
 
   switchMainView(newView, params) {
-    mainView.getRegion("main").detachView();
-    mainView.showChildView( "main", new newView(params) );
+    App.Views.mainView.getRegion("main").detachView();
+    App.Views.mainView.showChildView( "main", new newView(params) );
     $("#searchBox").val("");
     App.searchPreviewRecipes.reset();
   },
