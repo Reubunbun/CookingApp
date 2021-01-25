@@ -25,7 +25,8 @@ App.Views.SavedRecipes = Marionette.CollectionView.extend({
 
 //Single search preview
 App.Views.SearchPreview = Marionette.View.extend({
-  tagName: "li",
+  tagName: "div",
+  className: "dropdown-item",
   template: _.template("<%= strMeal %>")
 });
 
@@ -179,8 +180,11 @@ App.Views.SearchedRecipesPage = Marionette.View.extend({
     //Need to make a separate collection so there can be search previews on the
     //search page
     App.searchedRecipes = App.searchPreviewRecipes.clone();
+    console.log(App.searchedRecipes);
     this.showChildView( "resultsList",
       new App.Views.SearchResults( {collection: App.searchedRecipes} )
     );
   }
 });
+
+App.Views.mainView = new App.Views.Main();
