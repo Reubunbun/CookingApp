@@ -1,57 +1,9 @@
-* {
-  margin: 0;
-  padding: 0;
-}
-
-nav {
-  background: grey;
-  padding: 1em 0 1em 0.5em;
-}
-nav a {
-  margin-right: 0.5em;
-}
-
-.navItem {
-  display: inline-block;
-}
-
-#searchResults {
-  position: absolute;
-  max-height: 10em;
-  overflow: scroll;
-}
-#searchResults li {
-  padding: 2px;
-  background: #d9d9d9;
-}
-#searchResults li:nth-child(2n) {
-  background: #bfbfbf;
-}
-
-#main-content {
-  width: 50%;
-  margin: 1em auto;
-  text-align: center;
-}
-
-#main-content .picture-ingredients {
-  display: inline-block;
-  width: 49%;
-  vertical-align: top;
-}
-
-.youtube-container {
-  position: relative;
+.text-overflow {
+  --lh: 1.4rem;
+  --max-lines: 8;
+  line-height: var(--lh);
+  max-height: calc( var(--lh) * var(--max-lines) );
   overflow: hidden;
-  width: 100%;
-  padding-top: 56.25%;
-}
-.youtube-container iframe {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  text-overflow: ellipsis;
+  padding-right: 1rem;
 }
