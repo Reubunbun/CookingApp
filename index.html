@@ -5,6 +5,7 @@
     <title>Cooking App</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -17,11 +18,12 @@
 
   <body>
 
+
     <!-- Main parent view -->
     <script id="mainViewTemplate" type="text/template">
-      <nav class="navbar navbar-expand-sm bg-dark navbar-dark py-3">
-        <a class="btn btn-primary mr-4" href="#">Saved Recipes</a>
-        <form class="form-inline">
+      <nav class="navbar navbar-expand-sm bg-dark navbar-dark" style="height:5em">
+        <form class="form-inline" style="position:absolute">
+          <a class="btn btn-primary mr-4" href="#">Saved Recipes</a>
           <div id="searchBar"></div>
           <input class="btn btn-success" type="submit" id="searchButton" value="Search"/>
         </form>
@@ -31,7 +33,7 @@
     <!-- Navigation search bar -->
     <script id="searchBarTemplate" type="text/template">
       <input class="form-control mr-sm-2" type="text" autocomplete="off" id="searchBox" />
-      <div class="dropdown" style="position:absolute" id=searchResults></div>
+      <div class="list-group" id="searchResults" style="margin-top:50px"></div>
     </script>
     <!-- Viewing full details of recipe -->
     <script id="showRecipeTemplate" type="text/template">
@@ -61,24 +63,39 @@
     <!-- Saved recipes full list -->
     <script id="savedRecipesTemplate" type="text/template">
       <h1 class="text-center display-2"> Saved Recipes </h1>
-      <ul id="recipeList"></ul>
+      <ul id="recipeList" class="list-group"></ul>
     </script>
     <!-- Searched recipes full list -->
     <script id="searchedRecipesTemplate" type="text/template">
       <h1 class="text-center display-2"> Results </h1>
-      <ul id="resultsList"></ul>
+      <ul id="resultsList" class="list-group"></ul>
     </script>
     <!-- Searched recipe list item -->
     <script id="searchedRecipeTemplate" type="text/template">
-      <div id="alert"></div>
-      <div>
-        <strong> <%= strMeal %> </strong>
-        <div>
-          <input type="submit" id="viewButton" value="view" />
-          <input type="submit" id="addButton" value="save" />
+      <div class="card">
+        <h4 class="card-header display-6 text-center"><strong> <%= strMeal %> </strong></h4>
+        <div class="container m-0">
+          <div class="row d-none d-sm-flex">
+            <div class="col-md-8 col-sm-12 p-0">
+              <p class="card-text text-overflow m-2"> <%= strInstructions %> </p>
+              <div class="d-none d-md-flex d-lg-block justify-content-center">
+                <input type="submit" id="viewButton" class="btn btn-lg btn-info mx-2" value="view" />
+                <input type="submit" id="addButton" class="btn btn-lg btn-success mx-2" value="save" />
+              </div>
+            </div>
+            <div class="col-md-4 p-1 d-none d-md-block">
+              <img src="<%= strMealThumb %>" class="img-fluid" style="width:100%;height:auto;"/>
+            </div>
+          </div>
+          <div class="row d-md-none d-flex justify-content-center">
+            <div class="col-md-8 col-sm-12">
+              <img src="<%= strMealThumb %>" class="img-fluid float-left" style="width:60%;height:auto;"/>
+              <input type="submit" id="viewButton" class="btn btn-lg btn-info" value="view" />
+              <input type="submit" id="addButton" class="btn btn-lg btn-success" value="save" />
+            </div>
+          </div>
         </div>
       </div>
-      <img src="<%= strMealThumb %>" width="100"/>
     </script>
     <!-- Recipe ingredient -->
     <script id="ingredientTemplate" type="text/template">
