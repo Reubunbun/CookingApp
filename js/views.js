@@ -5,6 +5,7 @@
 //One Recipe
 App.Views.SavedRecipe = Marionette.View.extend({
   tagName: "li",
+  className: "list-group-item",
   template: template("savedRecipeTemplate"),
   events: {
     "click #removeButton": "destroy",
@@ -26,7 +27,7 @@ App.Views.SavedRecipes = Marionette.CollectionView.extend({
 //Single search preview
 App.Views.SearchPreview = Marionette.View.extend({
   tagName: "div",
-  className: "dropdown-item",
+  className: "list-group-item",
   template: _.template("<%= strMeal %>")
 });
 
@@ -40,8 +41,8 @@ App.Views.SearchPreviews = Marionette.CollectionView.extend({
 App.Views.SearchBar = Marionette.View.extend({
   el: "#searchBar",
   template: template("searchBarTemplate"),
-  events: { "keyup #searchBox": "search" },
-  regions: { searchResults: "#searchResults" },
+  events: {"keyup #searchBox": "search"},
+  regions: {searchResults: "#searchResults"},
 
   onRender(){
     this.showChildView( "searchResults",
@@ -59,6 +60,7 @@ App.Views.SearchBar = Marionette.View.extend({
 //One search result
 App.Views.SearchResult = Marionette.View.extend({
   tagName: "li",
+  className: "list-group-item p-0 mb-1",
   template: template("searchedRecipeTemplate"),
   events: {
     "click #addButton": "saveRecipe",
