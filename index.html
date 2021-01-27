@@ -18,7 +18,6 @@
 
   <body>
 
-
     <!-- Main parent view -->
     <script id="mainViewTemplate" type="text/template">
       <nav class="navbar navbar-expand-sm bg-dark navbar-dark" style="height:5em">
@@ -33,24 +32,26 @@
     <!-- Navigation search bar -->
     <script id="searchBarTemplate" type="text/template">
       <input class="form-control mr-sm-2" type="text" autocomplete="off" id="searchBox" />
-      <div class="list-group" id="searchResults" style="margin-top:50px"></div>
+      <div class="list-group" id="searchResults"></div>
     </script>
     <!-- Viewing full details of recipe -->
     <script id="showRecipeTemplate" type="text/template">
-      <div>
-        <h1 style="display:inline-block"> <%= strMeal %> </h1>
-        <input type="submit" id="saveButton" value="save" style="display:inline-block" />
-      </div>
-      <p> <%= strInstructions %> </p>
-      <div>
-        <img src="<%= strMealThumb %>" width="480"/>
-      </div>
-      <div>
-        <h2>Ingredients</h2>
-        <ul id="ingredientsList"></ul>
-      </div>
-      <div>
-        <iframe src="<%=strYoutube%>"></iframe>
+      <div class="recipe-content">
+        <div class="display-2 title">
+          <h1> <%= strMeal %> </h1>
+          <input class="btn btn-success btn-lg" type="submit" id="saveButton" value="save"/>
+        </div>
+        <p> <%= strInstructions %> </p>
+        <div>
+          <img src="<%= strMealThumb %>" width="480"/>
+        </div>
+        <div>
+          <h2>Ingredients</h2>
+          <ul id="ingredientsList"></ul>
+        </div>
+        <div>
+          <iframe src="<%=strYoutube%>"></iframe>
+        </div>
       </div>
     </script>
 
@@ -73,25 +74,28 @@
     <!-- Searched recipe list item -->
     <script id="searchedRecipeTemplate" type="text/template">
       <div class="card">
-        <h4 class="card-header display-6 text-center"><strong> <%= strMeal %> </strong></h4>
-        <div class="container m-0">
-          <div class="row d-none d-sm-flex">
-            <div class="col-md-8 col-sm-12 p-0">
-              <p class="card-text text-overflow m-2"> <%= strInstructions %> </p>
-              <div class="d-none d-md-flex d-lg-block justify-content-center">
-                <input type="submit" id="viewButton" class="btn btn-lg btn-info mx-2" value="view" />
-                <input type="submit" id="addButton" class="btn btn-lg btn-success mx-2" value="save" />
+        <div class="card-header p-1">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-1 offset-lg-4 col-md-2 offset-md-3 col-sm-4 col-5 px-0">
+                <h4 class="text-center"><%= strMeal %></h4>
+              </div>
+              <div class="col-lg-1 col-md-2 col-sm-4 offset-sm-0 col-3 offset-1 pl-1 pr-0">
+                <input id="viewButton" class="btn btn-block btn-info" value="view" />
+              </div>
+              <div class="col-lg-1 col-md-2 col-sm-4 col-3 pl-1 pr-0">
+                <input id="addButton" class="btn btn-block btn-success" value="save" />
               </div>
             </div>
-            <div class="col-md-4 p-1 d-none d-md-block">
-              <img src="<%= strMealThumb %>" class="img-fluid" style="width:100%;height:auto;"/>
-            </div>
           </div>
-          <div class="row d-md-none d-flex justify-content-center">
-            <div class="col-md-8 col-sm-12">
-              <img src="<%= strMealThumb %>" class="img-fluid float-left" style="width:60%;height:auto;"/>
-              <input type="submit" id="viewButton" class="btn btn-lg btn-info" value="view" />
-              <input type="submit" id="addButton" class="btn btn-lg btn-success" value="save" />
+        </div>
+        <div class="container m-0">
+          <div class="row d-none d-sm-flex">
+            <div class="col-sm-8 p-0">
+              <p class="card-text text-overflow m-2"> <%= strInstructions %> </p>
+            </div>
+            <div class="col-sm-4 p-1 d-none d-sm-block">
+              <img src="<%= strMealThumb %>" class="img-fluid" style="width:100%;height:auto;"/>
             </div>
           </div>
         </div>
