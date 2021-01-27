@@ -86,7 +86,7 @@ App.Views.SearchResults = Marionette.CollectionView.extend({
 
 //One ingredient
 App.Views.Ingredient = Marionette.View.extend({
-  tagName: "li",
+  tagName: "tr",
   template: template("ingredientTemplate")
 });
 
@@ -152,6 +152,7 @@ App.Views.ShowRecipePage = Marionette.View.extend({
       if (key.includes("strIngredient") && value) {
         [, ingredientNum] = key.split("strIngredient");
         pIngredients.push({
+          ingredientNum: ingredientNum,
           strIngredient: value,
           strMeasure: this.model.get("strMeasure" + ingredientNum)
         });
