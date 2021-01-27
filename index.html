@@ -57,18 +57,25 @@
 
     <!-- Saved recipe list item -->
     <script id="savedRecipeTemplate" type="text/template">
-      <strong><%= strMeal %></strong>
-      <input type="submit" id="removeButton" value="remove" />
-      <input type="submit" id="viewButton" value="view" />
+      <div class="row">
+        <div class="col-3 d-none d-md-block">
+          <img src="<%= strMealThumb %>" class="rounded" style="width:100%;height:auto;"/>
+        </div>
+        <div class="col">
+          <h4 class="display-4"><%= strMeal %></h4>
+          <input class="btn btn-lg btn-info" type="submit" id="viewButton" value="view" />
+          <input class="btn btn-lg btn-warning" type="submit" id="removeButton" value="remove" />
+        </div>
+      </div>
     </script>
     <!-- Saved recipes full list -->
     <script id="savedRecipesTemplate" type="text/template">
-      <h1 class="text-center display-2"> Saved Recipes </h1>
+      <h1 class="text-center display-3 mb-5 mt-2"><strong>Saved Recipes</strong></h1>
       <ul id="recipeList" class="list-group"></ul>
     </script>
     <!-- Searched recipes full list -->
     <script id="searchedRecipesTemplate" type="text/template">
-      <h1 class="text-center display-2"> Results </h1>
+      <h1 class="text-center display-3 mb-5 mt-2"><strong>Results</strong></h1>
       <ul id="resultsList" class="list-group"></ul>
     </script>
     <!-- Searched recipe list item -->
@@ -77,8 +84,8 @@
         <div class="card-header p-1">
           <div class="container">
             <div class="row">
-              <div class="col-lg-1 offset-lg-4 col-md-2 offset-md-3 col-sm-4 col-5 px-0">
-                <h4 class="text-center"><%= strMeal %></h4>
+              <div class="col-lg-2 offset-lg-3 col-md-2 offset-md-3 col-sm-4 col-5 px-0">
+                <h4 class="text-right"><%= strMeal %></h4>
               </div>
               <div class="col-lg-1 col-md-2 col-sm-4 offset-sm-0 col-3 offset-1 pl-1 pr-0">
                 <input id="viewButton" class="btn btn-block btn-info" value="view" />
