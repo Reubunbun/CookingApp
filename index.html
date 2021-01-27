@@ -27,7 +27,7 @@
           <input class="btn btn-success" type="submit" id="searchButton" value="Search"/>
         </form>
       </nav>
-      <div id="main-content" class="container-sm"></div>
+      <div id="main-content"></div>
     </script>
     <!-- Navigation search bar -->
     <script id="searchBarTemplate" type="text/template">
@@ -36,25 +36,38 @@
     </script>
     <!-- Viewing full details of recipe -->
     <script id="showRecipeTemplate" type="text/template">
-      <div class="recipe-content">
-        <div class="display-2 title">
-          <h1> <%= strMeal %> </h1>
-          <input class="btn btn-success btn-lg" type="submit" id="saveButton" value="save"/>
+      <img src="<%= strMealThumb %>" class="img-fluid"/>
+      <div class="container">
+        <div class="text-center mb-3">
+          <h1 class="d-inline-block align-baseline display-5 mr-1 mb-0"><strong><%= strMeal %></strong></h1>
+          <input class="align-baseline btn btn-success btn-lg ml-1" type="submit" id="saveButton" value="save"/>
         </div>
+
+        <h3><u>Intructions</u></h3>
         <p> <%= strInstructions %> </p>
-        <div>
-          <img src="<%= strMealThumb %>" width="480"/>
-        </div>
-        <div>
-          <h2>Ingredients</h2>
-          <ul id="ingredientsList"></ul>
-        </div>
-        <div>
-          <iframe src="<%=strYoutube%>"></iframe>
+
+        <h3><u>Ingredients</u></h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Ingredient</th>
+              <th scope="col">Amount</th>
+            </tr>
+          </thead>
+          <tbody id="ingredientsList"></tbody>
+        </table>
+        <div class="embed-responsive embed-responsive-4by3">
+          <iframe class="embed-responsive-item" src="<%=strYoutube%>"></iframe>
         </div>
       </div>
     </script>
-
+    <!-- Recipe ingredient -->
+    <script id="ingredientTemplate" type="text/template">
+      <th scope="row"><%= ingredientNum %></th>
+      <td> <%= strIngredient %> </td>
+      <td> <%= strMeasure %> </td>
+    </script>
     <!-- Saved recipe list item -->
     <script id="savedRecipeTemplate" type="text/template">
       <div class="row">
@@ -70,13 +83,17 @@
     </script>
     <!-- Saved recipes full list -->
     <script id="savedRecipesTemplate" type="text/template">
-      <h1 class="text-center display-3 mb-5 mt-2"><strong>Saved Recipes</strong></h1>
-      <ul id="recipeList" class="list-group"></ul>
+      <div class="container">
+        <h1 class="text-center display-3 mb-5 mt-2"><strong>Saved Recipes</strong></h1>
+        <ul id="recipeList" class="list-group"></ul>
+      </div>
     </script>
     <!-- Searched recipes full list -->
     <script id="searchedRecipesTemplate" type="text/template">
-      <h1 class="text-center display-3 mb-5 mt-2"><strong>Results</strong></h1>
-      <ul id="resultsList" class="list-group"></ul>
+      <div class="container">
+        <h1 class="text-center display-3 mb-5 mt-2"><strong>Results</strong></h1>
+        <ul id="resultsList" class="list-group"></ul>
+      </div>
     </script>
     <!-- Searched recipe list item -->
     <script id="searchedRecipeTemplate" type="text/template">
@@ -107,10 +124,6 @@
           </div>
         </div>
       </div>
-    </script>
-    <!-- Recipe ingredient -->
-    <script id="ingredientTemplate" type="text/template">
-      <strong> <%= strIngredient %> </strong> - <%= strMeasure %>
     </script>
     <!-- Bootstrap alert template -->
     <template id="alertTemplate">
