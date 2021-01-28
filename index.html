@@ -36,15 +36,22 @@
     </script>
     <!-- Viewing full details of recipe -->
     <script id="showRecipeTemplate" type="text/template">
-      <img src="<%= strMealThumb %>" class="img-fluid"/>
+      <img src="<%= strMealThumb %>" class="img-fluid d-block mx-auto d-md-none"/>
       <div class="container">
-        <div class="text-center mb-3">
+        <div class="text-center my-3">
           <h1 class="d-inline-block align-baseline display-5 mr-1 mb-0"><strong><%= strMeal %></strong></h1>
           <input class="align-baseline btn btn-success btn-lg ml-1" type="submit" id="saveButton" value="save"/>
         </div>
 
         <h3><u>Intructions</u></h3>
-        <p> <%= strInstructions %> </p>
+        <div class="row">
+          <div class="col-12 col-md-7">
+            <p><%= strInstructions %></p>
+          </div>
+          <div class="d-none d-md-block col-5">
+            <img src="<%= strMealThumb %>" class="rounded img-fluid"/>
+          </div>
+        </div>
 
         <h3><u>Ingredients</u></h3>
         <table class="table">
@@ -57,7 +64,7 @@
           </thead>
           <tbody id="ingredientsList"></tbody>
         </table>
-        <div class="embed-responsive embed-responsive-4by3">
+        <div class="embed-responsive embed-responsive-16by9 mb-2">
           <iframe class="embed-responsive-item" src="<%=strYoutube%>"></iframe>
         </div>
       </div>
