@@ -1,9 +1,8 @@
 App.Router = Backbone.Router.extend({
   routes: {
     "": "savedRecipesPage",
-    "search": "searchRecipesPage",
-    "showSaved/:id": "showSavedRecipePage",
-    "showSearched/:id": "showSearchedRecipePage"
+    "search/:query": "searchRecipesPage",
+    "show/:id": "showRecipePage"
   },
 
   switchMainView(newView, params) {
@@ -15,19 +14,18 @@ App.Router = Backbone.Router.extend({
   savedRecipesPage() {
     this.switchMainView(App.Views.SavedRecipesPage);
   },
-  searchRecipesPage() {
-    this.switchMainView(App.Views.SearchedRecipesPage);
+  searchRecipesPage(query) {
+    App.searchedRecipes.url = App.searchedRecipes.requestUrl + query;
+    App.searchedRecipes.fetch().then( () => {
+      this.switchMainView(App.Views.SearchedRecipesPage);
+    }); 
   },
-  showSavedRecipePage(id) {
-    const recipeModel = App.savedRecipes.find(
-      recipe => recipe.get("idMeal") == id
-    );
-    this.switchMainView( App.Views.ShowRecipePage, {model: recipeModel} );
-  },
-  showSearchedRecipePage(id) {
-    const recipeModel = App.searchedRecipes.find(
-      recipe => recipe.get("idMeal") == id
-    );
-    this.switchMainView( App.Views.ShowRecipePage, {model: recipeModel} );
+  showRecipePage(id) {
+    const recipeModel = new App.Models.Recipe();
+    recipeModel.url = recipeModel.requestUrl + id;
+    console.log("url: " + recipeModel.url);
+    recipeModel.fetch().then( () => {
+      this.switchMainView( App.Views.ShowRecipePage, {model: recipeModel} );
+    });    
   }
 });

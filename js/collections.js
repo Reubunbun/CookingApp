@@ -6,7 +6,6 @@ App.Collections.SavedRecipes = Backbone.Collection.extend({
 
 //Collection of Recipes that are returned from a search
 App.Collections.SearchedRecipes = Backbone.Collection.extend({
-  model: App.Models.Recipe,
   requestUrl: "https://www.themealdb.com/api/json/v1/1/search.php?s=",
   url: "",
 
@@ -19,6 +18,8 @@ App.Collections.SearchedRecipes = Backbone.Collection.extend({
           meal.strYoutube = "http://www.youtube.com/embed/" + videoID;
         }
       }
+      console.log(response.meals);
+
       return response.meals;
     }
   }

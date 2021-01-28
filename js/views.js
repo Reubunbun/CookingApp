@@ -13,7 +13,7 @@ App.Views.SavedRecipe = Marionette.View.extend({
   },
 
   viewRecipe() {
-    window.location.href = App.startURL + "#showSaved/" + this.model.get("idMeal");
+    window.location.href = App.startURL + "#show/" + this.model.get("idMeal");
   },
   destroy() { this.model.destroy(); }
 });
@@ -74,7 +74,7 @@ App.Views.SearchResult = Marionette.View.extend({
     if (!isDuplicate) App.savedRecipes.add( this.model.toJSON() );
   },
   viewRecipe() {
-    window.location.href = App.startURL + "#showSearched/" + this.model.get("idMeal");
+    window.location.href = App.startURL + "#show/" + this.model.get("idMeal");
   }
 });
 
@@ -116,7 +116,7 @@ App.Views.Main = Marionette.View.extend({
     );
   },
   search() {
-    window.location.href = App.startURL + "#search";
+    window.location.href = App.startURL + "#search/" + this.$el.find("#searchBox").val();;
   }
 });
 
@@ -142,9 +142,10 @@ App.Views.ShowRecipePage = Marionette.View.extend({
 
   onRender() {
     //Remove save button when recipe is already saved
-    if ( window.location.href.includes("showSaved") ) {
-      this.$el.find("#saveButton").remove();
-    }
+    const isSaved = App.savedRecipes.find(
+      recipe => recipe.get("idMeal") == this.model.get("idMeal")
+    );
+    if (isSaved) this.$el.find("#saveButton").remove();
 
     //Create new collection of ingredients with their corresponding measurements
     let pIngredients = [];
@@ -182,8 +183,7 @@ App.Views.SearchedRecipesPage = Marionette.View.extend({
   onRender() {
     //Need to make a separate collection so there can be search previews on the
     //search page
-    App.searchedRecipes = App.searchPreviewRecipes.clone();
-    console.log(App.searchedRecipes);
+    //App.searchedRecipes = App.searchPreviewRecipes.clone();
     this.showChildView( "resultsList",
       new App.Views.SearchResults( {collection: App.searchedRecipes} )
     );
